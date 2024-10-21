@@ -1,4 +1,5 @@
 import { createSignal } from "solid-js";
+import styles from './App.module.css';
 
 export default function Kalkulator() {
     const [shape, setShape] = createSignal("kocka");
