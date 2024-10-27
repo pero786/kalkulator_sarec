@@ -5,9 +5,9 @@ function App() {
   return (
     <>
     <div class={styles.App}>
-    <h1>Kalkulator za izračun volumemna geometrijskih tijela </h1>
-    </div>
+    <h1>Kalkulator za izračun volumena geometrijskih tijela </h1>
     <Kalkulator/>
+    </div>
     </>
   );
 }

@@ -3,24 +3,34 @@ import styles from './App.module.css';
 
 export default function Kalkulator() {
     const [shape, setShape] = createSignal("kocka");
-    const [firstNumber, setFirstNumber] = createSignal();
-    const [secondNumber, setSecondNumber] = createSignal();
+    const [firstNumber, setFirstNumber] = createSignal("");
+    const [secondNumber, setSecondNumber] = createSignal("");
     const [result, setResult] = createSignal(null);
+    const [error, setError] = createSignal("");
 
     function calculateVolume() {
+        setError("");
+        const num1 = parseFloat(firstNumber());
+        const num2 = parseFloat(secondNumber());
+
+        if (isNaN(num1) || num1 <= 0 || (shape() !== "kocka" && (isNaN(num2) || num2 <= 0))) {
+            setError("Unesite ispravne, pozitivne brojeve za sve dimenzije.");
+            return;
+        }
+
         let volume;
         switch (shape()) {
             case "kocka":
-                volume = Math.pow(firstNumber(), 3);
+                volume = Math.pow(num1, 3);
                 break;
             case "valjak":
-                volume = Math.PI * Math.pow(firstNumber(), 2) * secondNumber();
+                volume = Math.PI * Math.pow(num1, 2) * num2;
                 break;
             case "kvadar":
-                volume = firstNumber() * secondNumber() * secondNumber(); 
+                volume = num1 * num2 * num2; 
                 break;
             case "piramida":
-                volume = (1 / 3) * Math.pow(firstNumber(), 2) * secondNumber();
+                volume = (1 / 3) * Math.pow(num1, 2) * num2;
                 break;
             default:
                 volume = 0;
@@ -50,19 +60,20 @@ export default function Kalkulator() {
                     onInput={(event) => setFirstNumber(event.target.value)} 
                 />
                 
-                {shape() === "valjak" || shape() === "kvadar" || shape() === "piramida" ? (
+                {(shape() === "valjak" || shape() === "kvadar" || shape() === "piramida") && (
                     <input 
                         type="number" 
                         name="secondNumber" 
                         placeholder="Visina" 
                         onInput={(event) => setSecondNumber(event.target.value)} 
                     />
-                ) : null }
+                )}
 
                 <input type="submit" value="Izračunaj volumen" />
             </form>
 
-            {result() !== null ? <div>Volumen {shape()} je: {result()}</div> : null}
+            {error() && <div className={styles.error}>{error()}</div>}
+            {result() !== null && <div>Volumen {shape()} je: {result()}</div>}
         </div>
     );
 }
