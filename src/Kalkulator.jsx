@@ -42,7 +42,6 @@ export default function Kalkulator() {
         event.preventDefault();
         calculateVolume();
     }
-
     return (
         <div>
             <select onChange={(e) => setShape(e.target.value)} value={shape()}>
@@ -71,7 +70,6 @@ export default function Kalkulator() {
 
                 <input type="submit" value="Izračunaj volumen" />
             </form>
-
             {error() && <div className={styles.error}>{error()}</div>}
             {result() !== null && <div>Volumen {shape()} je: {result()}</div>}
         </div>
